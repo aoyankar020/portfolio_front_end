@@ -3,15 +3,21 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { IProject } from "@/type";
 import Image from "next/image";
+import { ProjectDetailsButton } from "./DetailsButton";
 
 export function ProjectCard({ project }: { project: IProject }) {
   return (
-    <Card className="flex flex-col h-full border border-gray-300 rounded-lg shadow-md transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-2">
+    <Card className=" px-6 py-4 flex flex-col h-full border border-gray-300 rounded-lg shadow-md transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-2">
       {/* Image Section */}
-      <div className="relative w-full h-48">
+      <div className="relative w-full aspect-[16/9]">
         <Image
-          src="/globe.svg"
-          alt="Blog img"
+          // Use nullish coalescing to ensure src is always a string
+          src={
+            project.thumbnail && project.thumbnail !== ""
+              ? project?.thumbnail
+              : "/globe.svg"
+          }
+          alt="Project Thumbnail"
           fill
           className="object-contain rounded-t-lg"
         />
@@ -31,7 +37,7 @@ export function ProjectCard({ project }: { project: IProject }) {
           <Profile />
           <div>
             <h1 className="capitalize text-sm font-medium">
-              {project.ownerId}
+              {project.owner?.name}
             </h1>
             <p className="text-xs text-gray-500">
               {new Date(project.updatedAt).toLocaleDateString()}
@@ -39,13 +45,7 @@ export function ProjectCard({ project }: { project: IProject }) {
           </div>
         </div>
 
-        <Button
-          variant="outline"
-          size="sm"
-          className="w-full sm:w-auto whitespace-nowrap"
-        >
-          See Details
-        </Button>
+        <ProjectDetailsButton name="Details" projectId={project.id} />
       </CardFooter>
     </Card>
   );

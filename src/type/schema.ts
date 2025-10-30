@@ -39,15 +39,15 @@ export const stringArrayPreprocess = z.preprocess((value) => {
   return [];
 }, z.array(z.string().trim().min(1, { message: "Item cannot be empty." })));
 
-// export const blogformSchema = z.object({
-//   title: z.string().min(10, {
-//     message: "title must be at least 10 characters.",
-//   }),
-//   content: z.string().min(10, {
-//     message: "Content must be 20 charecture",
-//   }),
-//   coverImage: z.instanceof(File).optional(),
-// });
+export const blogformSchema = z.object({
+  title: z.string().min(10, {
+    message: "title must be at least 10 characters.",
+  }),
+  content: z.string().min(10, {
+    message: "Content must be 20 charecture",
+  }),
+  coverImage: z.instanceof(File).optional(),
+});
 // export const projectSchema = z.object({
 //   title: z
 //     .string()

@@ -10,12 +10,18 @@ import { DeleteProjectAlert } from "./deleteProjectAlert";
 export function DashboardProjectCard({ project }: { project: IProject }) {
   console.log("All Projects:", project);
   return (
-    <Card className="flex flex-col h-full border border-gray-300 rounded-lg shadow-md transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-2">
+    <Card className=" py-4 px-6 flex flex-col h-full border border-gray-300 rounded-lg shadow-md transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-2">
       {/* Image Section */}
-      <div className="relative w-full h-48">
+      {/* Image Section */}
+      <div className="relative w-full aspect-[16/9]">
         <Image
-          src="/globe.svg"
-          alt="Blog img"
+          // Use nullish coalescing to ensure src is always a string
+          src={
+            project.thumbnail && project.thumbnail !== ""
+              ? project?.thumbnail
+              : "/globe.svg"
+          }
+          alt="Project Thumbnail"
           fill
           className="object-contain rounded-t-lg"
         />

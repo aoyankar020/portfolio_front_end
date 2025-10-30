@@ -11,8 +11,9 @@ async function AllBlogs() {
   return (
     <>
       {/* all Blogs */}
-      <section className=" mx-auto    w-9/12 ">
-        <div className=" grid grid-cols-3 justify-center gap-8 w-full max-w-full">
+      <section className="relative mx-auto     ">
+        <div className=" grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 justify-center gap-8  w-full ">
+          {/* <div className="bg-red-500">hii</div> */}
           {blogs.map((blog: IBlog) => (
             <DashboardBlogCard key={blog.id} blog={blog} />
           ))}

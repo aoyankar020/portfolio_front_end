@@ -20,14 +20,18 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { updateBlogForm } from "@/actions/updateBlogForm";
-import { SquarePen } from "lucide-react";
+
 import { projectSchema } from "@/type/schema";
 import { TagInput } from "@/components/TagInput";
-import { IProject } from "@/type";
+
 import { updateProjectForm } from "@/actions/updateProject";
+import UploadFile from "@/components/FileUpload";
+import { useSession } from "next-auth/react";
 
 export default function UpdateProjectForm({ project }: { project: any }) {
+  const { data: session } = useSession();
+  const ownerId = session?.user?.id;
+
   console.log("Projects Details:", project);
   const [isPending, startTransition] = useTransition();
   const projectForm = useForm<z.infer<typeof projectSchema>>({
@@ -48,7 +52,12 @@ export default function UpdateProjectForm({ project }: { project: any }) {
 
     formdata.append("title", data.title);
     formdata.append("description", data.description);
-    formdata.append("thumbnail", data.thumbnail);
+    if (data.thumbnail) {
+      if (data.thumbnail instanceof File) {
+        formdata.append("thumbnail", data.thumbnail);
+      }
+    }
+    formdata.append("ownerId", ownerId as string);
     formdata.append("gitLink", data.gitLink as string);
     formdata.append("liveSite", data.liveSite as string);
     // Convert arrays to JSON strings before appending to FormData
@@ -57,7 +66,9 @@ export default function UpdateProjectForm({ project }: { project: any }) {
 
     startTransition(async () => {
       const projectData = await updateProjectForm(formdata, project.id);
-      if (projectData?.error) {
+
+      console.log("Update Project Data:", projectData);
+      if (projectData?.sucess) {
         toast.error(`${projectData.error}`);
         console.log(projectData.error);
       } else {
@@ -114,7 +125,8 @@ export default function UpdateProjectForm({ project }: { project: any }) {
             <FormItem>
               <FormLabel>Project Thumbnail </FormLabel>
               <FormControl>
-                <URLInput placeholder="example.com" {...field} />
+                <UploadFile onFileSelect={(file) => field.onChange(file)} />
+                {/* <URLInput placeholder="example.com" {...field} /> */}
               </FormControl>
               <FormDescription className="sr-only">
                 This is your public display name.
@@ -201,7 +213,7 @@ export default function UpdateProjectForm({ project }: { project: any }) {
             className="w-full md:w-1/2 lg:w-1/2 cursor-pointer"
             type="submit"
           >
-            {isPending ? "Submitting..." : "Submited"}
+            {isPending ? "Updating..." : "Update"}
           </Button>
         </div>
       </form>

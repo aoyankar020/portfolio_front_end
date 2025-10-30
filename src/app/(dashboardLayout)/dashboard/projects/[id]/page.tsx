@@ -1,5 +1,6 @@
 import UpdateProjectForm from "@/components/modules/projects/updateProject";
 import { IProject } from "@/type";
+import Image from "next/image";
 
 async function DashboardSingleProject({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -16,8 +17,21 @@ async function DashboardSingleProject({ params }: { params: { id: string } }) {
   return (
     <>
       <section className=" mx-auto shadow-2xl p-10 rounded-2xl   w-1/2">
-        <div className="text-center  pb-10">
+        <div className="text-center ">
           <h1 className="text-xl uppercase font-semibold">{project?.title} </h1>
+        </div>
+        <div className="relative w-full aspect-[16/9] rounded-xl">
+          <Image
+            // Use nullish coalescing to ensure src is always a string
+            src={
+              project.thumbnail && project.thumbnail !== ""
+                ? project?.thumbnail
+                : "/globe.svg"
+            }
+            alt="Blog img"
+            fill
+            className="object-contain rounded-xl"
+          />
         </div>
         <div className="px-10 ">
           {/* <BlogForm /> */}

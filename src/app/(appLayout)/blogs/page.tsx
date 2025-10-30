@@ -20,7 +20,7 @@ async function Blogs() {
       <div className="text-2xl font-bold mb-10 text-center">
         <h1>All Blogs</h1>
       </div>
-      <div className="grid grid-cols-3  mb-8 justify-between  gap-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3  mb-8 justify-between  gap-y-4">
         {blogs?.map((blog: IBlog) => (
           <BlogCard key={blog.id} blog={blog} />
         )) || <p>No blogs available.</p>}

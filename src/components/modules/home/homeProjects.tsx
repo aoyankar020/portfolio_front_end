@@ -15,7 +15,7 @@ async function HomeProjects() {
         <div className="text-2xl font-bold mb-10 text-center">
           <h1 className="uppercase">My Projects</h1>
         </div>
-        <div className="grid grid-cols-3 gap-8 ">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 ">
           {projectData?.map((project: IProject) => (
             <ProjectCard key={project.id} project={project} />
           )) || <p>No Projects available.</p>}

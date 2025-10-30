@@ -58,25 +58,22 @@ function ProjectForm() {
     }
     formdata.append("gitLink", data.gitLink as string);
     formdata.append("liveSite", data.liveSite as string);
-    formdata.append("ownerId", data.ownerId as string);
+    formdata.append("ownerId", ownerId as string);
     // Convert arrays to JSON strings before appending to FormData
     formdata.append("technologies", JSON.stringify(data.technologies));
     formdata.append("features", JSON.stringify(data.features));
 
     startTransition(async () => {
       const projectData = await submitProjectForm(formdata);
-      console.log("Project Data:", projectData);
-      // if (projectData?.error) {
-      //   toast.error(`${projectData.error}`);
-      //   console.log(projectData.error);
-      // } else {
-      //   console.log("RESULT FROM FORM", projectData);
-      //   toast.success(`${projectData.message}`);
-      //   projectForm.reset();
-      //   redirect("/dashboard/projects");
-      // }
-
-      console.log("Project Form Data:", projectData);
+      console.log("Project Data Response:", projectData);
+      if (!projectData?.success) {
+        toast.error(`${projectData.error}`);
+        console.log(projectData.error);
+      } else {
+        toast.success(`${projectData.message}`);
+        projectForm.reset();
+        redirect("/dashboard/projects");
+      }
     });
   };
   return (

@@ -1,6 +1,7 @@
 import { projectSchema } from "@/type/schema";
 
 export async function submitProjectForm(formdata: FormData) {
+  console.log("Project Form Data:", formdata);
   // Convert form data to object
   // const raw = Object.fromEntries(formdata.entries());
   // console.log("From Project Action:", raw);
@@ -23,7 +24,7 @@ export async function submitProjectForm(formdata: FormData) {
 
     body: formdata,
   });
-  const { statusCode, success, message, data } = await response.json();
+  const data = await response.json();
 
-  return { success, message };
+  return data;
 }

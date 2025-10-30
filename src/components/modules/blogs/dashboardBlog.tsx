@@ -12,8 +12,8 @@ import { DeleteBlogAlert } from "./deleteBlog";
 export function DashboardBlogCard({ blog }: { blog: IBlog }) {
   console.log("Blog Page:", blog);
   return (
-    <Card className="w-full max-w-sm h-[auto] border border-gray-300 rounded-lg shadow-md  transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-2 ">
-      <CardContent className="flex flex-col h-full">
+    <Card className=" relative w-full  h-[auto] border border-gray-300 rounded-lg shadow-md  transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-2 ">
+      <CardContent className="flex flex-col h-full ">
         {/* Image Section */}
         <div className="relative w-full aspect-[16/9]">
           <Image
@@ -31,7 +31,9 @@ export function DashboardBlogCard({ blog }: { blog: IBlog }) {
 
         {/* Text Section */}
         <div className="flex flex-col   flex-grow py-4">
-          <h1 className="text-lg font-semibold">{blog.title}</h1>
+          <h1 className=" text-lg  md:text-lg lg:text-xl xl:text-3xl font-semibold">
+            {blog.title}
+          </h1>
           <p className="text-gray-600 text-sm line-clamp-3">{blog.content}</p>
         </div>
       </CardContent>
