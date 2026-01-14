@@ -2,11 +2,11 @@ import BlogForm from "@/components/modules/blogs/BlogForm";
 
 function CreateBlog() {
   return (
-    <section className=" mx-auto shadow-2xl p-10 rounded-2xl   w-1/2">
+    <section className=" lg:mx-auto shadow-2xl lg:p-10 rounded-2xl p-10  lg:w-1/2">
       <div className="text-center  pb-10">
         <h1 className="text-xl uppercase font-semibold">Add NEW Blog</h1>
       </div>
-      <div className="px-10 ">
+      <div className=" w-full ">
         <BlogForm />
       </div>
     </section>

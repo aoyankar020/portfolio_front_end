@@ -1,5 +1,5 @@
 import UpdateProjectForm from "@/components/modules/projects/updateProject";
-import { IProject } from "@/type";
+
 import Image from "next/image";
 
 async function DashboardSingleProject({ params }: { params: { id: string } }) {

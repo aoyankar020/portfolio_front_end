@@ -21,7 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { useRouter } from "next/navigation";
-import { login } from "@/actions/auth";
+
 import { toast } from "sonner";
 const formSchema = z.object({
   email: z.string().min(3).max(20),

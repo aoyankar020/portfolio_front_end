@@ -1,6 +1,6 @@
 import { authOptions } from "@/helpers/authOptions";
 import { getServerSession } from "next-auth";
-import { useSession } from "next-auth/react";
+
 import { redirect } from "next/navigation";
 
 export default async function Dashboard() {

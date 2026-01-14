@@ -4,6 +4,7 @@ import { AlertCircleIcon, ImageIcon, UploadIcon, XIcon } from "lucide-react";
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
+import Image from "next/image";
 
 export default function UploadFile({
   onFileSelect,
@@ -39,7 +40,7 @@ export default function UploadFile({
   }, [files, onFileSelect]);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 p-4">
       <div className="relative">
         <div
           onDragEnter={handleDragEnter}
@@ -51,15 +52,17 @@ export default function UploadFile({
         >
           <input
             {...getInputProps()}
-            className="sr-only"
+            className="sr-only "
             aria-label="Upload image file"
+
           />
           {previewUrl ? (
-            <div className="absolute inset-0 flex items-center justify-center p-4">
-              <img
+            <div className="absolute inset-0 flex w-full  ">
+              <Image
                 src={previewUrl}
                 alt={files[0]?.file?.name || "Uploaded image"}
-                className="mx-auto max-h-full rounded object-contain"
+                className="  rounded object-contain p-2"
+               fill
               />
             </div>
           ) : (

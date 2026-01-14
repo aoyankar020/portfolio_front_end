@@ -46,7 +46,7 @@ export const blogformSchema = z.object({
   content: z.string().min(10, {
     message: "Content must be 20 charecture",
   }),
-  coverImage: z.instanceof(File).optional(),
+  coverImage: z.instanceof(Blob).optional(),
 });
 // export const projectSchema = z.object({
 //   title: z
@@ -105,4 +105,37 @@ export const projectSchema = z.object({
   technologies: stringArrayPreprocess,
 
   ownerId: z.string().optional(),
+});
+
+export const profileSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(3, { message: "Name must be at least 3 characters." })
+    .max(20, { message: "Name is too long." }),
+  id: z.string(),
+
+  picture: z
+    .any()
+    .refine(
+      (file) =>
+        !file || // allow optional
+        (typeof file === "object" &&
+          file !== null &&
+          "name" in file &&
+          "size" in file &&
+          "type" in file),
+      { message: "Invalid file upload." }
+    )
+    .optional(),
+
+  email: z.string().email({ message: "Email is invalid." }),
+
+  role: z
+    .string()
+    .trim()
+    .min(4, { message: "Role must be at least 4 characters." }),
+
+  createdAt: z.string().optional(),
+  updatedAt: z.string().optional(),
 });

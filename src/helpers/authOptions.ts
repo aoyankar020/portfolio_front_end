@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import CredentialsProvider from "next-auth/providers/credentials";
-import { NextAuthOptions, Session } from "next-auth";
+import { NextAuthOptions, Session, User } from "next-auth";
 import { JWT } from "next-auth/jwt";
+import { AdapterUser } from "next-auth/adapters";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -29,20 +31,26 @@ export const authOptions: NextAuthOptions = {
               headers: {
                 "Content-Type": "application/json",
               },
+              credentials: "include", // ✅ INSIDE options
               body: JSON.stringify({
                 email: credentials.email,
                 password: credentials.password,
               }),
-              credentials: "include", // important if backend sets cookies
             }
           );
-
+          console.log("BASE URL:", process.env.NEXT_PUBLIC_BaseURL);
           if (!res.ok) {
             console.error("Login failed:", await res.text());
             return null;
           }
 
-          const result = await res.json();
+          let result;
+          try {
+            result = await res.json();
+          } catch {
+            console.error("Backend did not return JSON");
+            return null;
+          }
 
           const userData = result?.data?.user;
           const tokens = result?.data?.tokens;
@@ -58,6 +66,8 @@ export const authOptions: NextAuthOptions = {
             email: userData.email,
             role: userData.role,
             picture: userData.picture ?? null,
+            createdAt: userData.createdAt,
+            updatedAt: userData.updatedAt,
             accessToken: tokens.accessToken, // ✅ include tokens here
             refreshToken: tokens.refreshToken,
           };
@@ -73,33 +83,72 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     // 🧠 Attach backend tokens to NextAuth's JWT
-    async jwt({ token, user }: { token: JWT; user?: any }) {
-      if (user) {
+    async jwt({
+      token,
+      user,
+      trigger,
+      session,
+    }: {
+      token: JWT;
+      user?:
+        | User
+        | (AdapterUser & {
+            accessToken?: string;
+            refreshToken?: string;
+            picture?: any;
+            createdAt?: string;
+            updatedAt?: string;
+          });
+      trigger?: "signIn" | "signUp" | "update";
+      session?: Session & { user: any }; // user here can contain custom fields like picture, createdAt
+    }): // ||{ token, user,trigger,session }: { token: JWT; user?: any,trigger:any }
+    Promise<JWT> {
+      // ✅ Only access trigger safely
+      if (trigger === "update" && session?.user) {
+        token.id = session.user.id;
+        token.name = session.user.name;
+        token.email = session.user.email;
+        token.role = session.user.role;
+        token.picture = session.user.picture ?? null;
+        token.createdAt = session.user.createdAt ?? null;
+        token.updatedAt = session.user.updatedAt ?? null;
+        token.accessToken = (session as any).accessToken;
+        token.refreshToken = (session as any).refreshToken;
+      }
+      // ✔👍 On login
+      if (user && user.id) {
         token.id = user.id;
-        token.name = user.name;
-        token.email = user.email;
-        token.role = user.role;
-        token.picture = user.picture;
-        token.accessToken = user.accessToken;
-        token.refreshToken = user.refreshToken;
+        token.name = user.name ?? null;
+        token.email = user.email ?? null;
+        token.role = (user as any).role ?? null;
+        token.picture = (user as any).picture ?? null;
+        token.createdAt = (user as any).createdAt ?? null;
+        token.updatedAt = (user as any).updatedAt ?? null;
+        token.accessToken = (user as any).accessToken ?? null;
+        token.refreshToken = (user as any).refreshToken ?? null;
       }
       return token;
     },
 
     // 🧠 Make tokens available in `useSession()` on client
-    async session({ session, token }: { session: Session; token: JWT }) {
-      console.log("🔹 Session callback:", { session, token });
-      session.user = {
-        id: token.id as string,
-        name: token.name as string,
-        email: token.email as string,
-        role: token.role as string,
-        picture: token.picture as any,
-      };
-      (session as any).accessToken = token.accessToken;
-      (session as any).refreshToken = token.refreshToken;
-      return session;
-    },
+   async session({ session, token }) {
+  if (token?.id) {
+    session.user = {
+      id: token.id as string,
+      name: token.name as string,
+      email: token.email as string,
+      role: token.role as string,
+      picture: token.picture,
+      createdAt: token.createdAt as string,
+      updatedAt: token.updatedAt as string,
+    };
+  }
+
+  (session as any).accessToken = token.accessToken ?? null;
+  (session as any).refreshToken = token.refreshToken ?? null;
+
+  return session;
+},
   },
 
   pages: {

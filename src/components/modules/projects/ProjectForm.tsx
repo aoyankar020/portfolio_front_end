@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { submitProjectForm } from "@/actions/create_Project";
 import URLInput from "@/components/comp-11";
@@ -22,14 +23,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
-import { startTransition, useTransition } from "react";
+import {  useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
 // Component
 function ProjectForm() {
-  const { data: session, status } = useSession();
+  const { data: session, } = useSession();
   // const id = (session.data?.user as { id?: string } | undefined)?.id; ownerId
   const ownerId = session?.user?.id;
   console.log("Project Session", session?.user?.id);

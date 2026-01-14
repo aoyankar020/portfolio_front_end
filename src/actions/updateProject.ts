@@ -1,4 +1,3 @@
-"use server";
 // import { blogformSchema, projectSchema } from "@/type/schema";
 
 export async function updateProjectForm(formData: FormData, id: string) {

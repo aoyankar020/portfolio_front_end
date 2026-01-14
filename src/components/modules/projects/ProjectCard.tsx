@@ -1,5 +1,5 @@
 import Profile from "@/components/Profile";
-import { Button } from "@/components/ui/button";
+
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { IProject } from "@/type";
 import Image from "next/image";
@@ -45,7 +45,7 @@ export function ProjectCard({ project }: { project: IProject }) {
           </div>
         </div>
 
-        <ProjectDetailsButton name="Details" projectId={project.id} />
+        <ProjectDetailsButton name="View" projectId={project.id} />
       </CardFooter>
     </Card>
   );

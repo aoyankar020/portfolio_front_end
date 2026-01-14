@@ -1,4 +1,4 @@
-import BlogForm from "@/components/modules/blogs/BlogForm";
+
 import UpdateBlogForm from "@/components/modules/blogs/updateBlog";
 import Image from "next/image";
 type Props = {

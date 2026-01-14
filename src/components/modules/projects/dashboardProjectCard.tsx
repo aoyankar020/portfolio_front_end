@@ -1,5 +1,5 @@
 import Profile from "@/components/Profile";
-import { Button } from "@/components/ui/button";
+
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { IProject } from "@/type";
 import { Eye } from "lucide-react";

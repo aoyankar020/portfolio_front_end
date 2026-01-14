@@ -1,12 +1,42 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import ProfileTabs from "@/components/comp-434";
 import { ProfileAvatar } from "@/components/modules/profile/ProfileAvater";
 import { authOptions } from "@/helpers/authOptions";
 import { getServerSession } from "next-auth";
-import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 async function Profile() {
   const session = await getServerSession(authOptions);
   const user = session?.user;
+
+
+const profilePicture = user?.picture;
+
+
+const lastPicture = profilePicture?.[profilePicture.length - 1];
+
+
+
+  const uid = user?.id;
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BaseURL}/user/${uid}`, {
+    headers: {
+      Authorization: `Bearer ${session?.accessToken}`,
+    },
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    console.error("Failed to fetch user:", await res.text());
+    return (
+      <section className="flex justify-center items-center min-h-screen">
+        <p className="text-red-500 font-medium">Failed to load user details.</p>
+      </section>
+    );
+  }
+
+  const userDetails = await res.json();
+
+  const userData = userDetails?.data;
 
   if (!session) {
     return (
@@ -26,8 +56,11 @@ async function Profile() {
 
         {/* Avatar centered vertically on the left side */}
 
-        <div className="absolute top-full -translate-y-1/2  ">
-          <ProfileAvatar />
+        <div className="absolute top-full -translate-y-1/2 ">
+          {
+            lastPicture? <Image className=" rounded-full" src={lastPicture} width={100} height={100}   alt="Personal image" ></Image>:<ProfileAvatar />
+          }
+        
         </div>
       </div>
 
@@ -37,7 +70,7 @@ async function Profile() {
           <span className="text-gray-500 font-normal">{user?.email}</span>
         </div>
         <section className="mt-5 w-full text-center">
-          <ProfileTabs />
+          <ProfileTabs  />
         </section>
       </div>
     </section>

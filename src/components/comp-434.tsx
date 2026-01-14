@@ -1,14 +1,10 @@
-import {
-  BookHeart,
-  BoxIcon,
-  GraduationCap,
-  HouseIcon,
-  PanelsTopLeftIcon,
-} from "lucide-react";
+import { BookHeart, BoxIcon, GraduationCap } from "lucide-react";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ProjectForm from "./modules/projects/ProjectForm";
+
+
+import Profile from "./modules/profile/profile";
 
 export default function ProfileTabs() {
   return (
@@ -56,7 +52,7 @@ export default function ProfileTabs() {
           Content for Tab 1
         </p>
         <div className="p-20">
-          <ProjectForm />
+          <Profile  />
         </div>
       </TabsContent>
       <TabsContent value="tab-2">

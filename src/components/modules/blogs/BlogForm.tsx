@@ -1,6 +1,6 @@
 "use client";
 import { submitBlogForm } from "@/actions/create_Blog";
-import URLInput from "@/components/comp-11";
+
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import {
@@ -40,8 +40,7 @@ function BlogForm() {
   const id = (session.data?.user as { id?: string } | undefined)?.id;
   console.log("UID:", session.data?.user);
 
-  // const id = (user as { id?: string } | undefined)?.id;
-  // console.log("Session From blog:", session);
+
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -79,8 +78,8 @@ function BlogForm() {
     });
   }
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+    <Form    {...form}>
+      <form   onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
         <FormField
           control={form.control}
           name="title"
@@ -135,7 +134,7 @@ function BlogForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Cover Image </FormLabel>
-              <FormControl>
+              <FormControl className="p-6">
                 <UploadFile onFileSelect={(file) => field.onChange(file)} />
               </FormControl>
               <FormDescription className="sr-only">

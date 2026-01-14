@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -28,7 +29,7 @@ import { updateProjectForm } from "@/actions/updateProject";
 import UploadFile from "@/components/FileUpload";
 import { useSession } from "next-auth/react";
 
-export default function UpdateProjectForm({ project }: { project: any }) {
+export default function ProjectForm({ project }: { project: any }) {
   const { data: session } = useSession();
   const ownerId = session?.user?.id;
 

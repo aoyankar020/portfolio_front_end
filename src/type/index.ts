@@ -32,10 +32,11 @@ export interface IProject {
   id: string;
   title: string;
   thumbnail: string;
-  projectLink?: string;
   liveSite?: string;
+  gitLink?: string;
   description: string;
   features: string[];
+  technologies:string[];
   createdAt: Date;
   updatedAt: Date;
   ownerId: string;
@@ -64,4 +65,25 @@ export interface AboutProps {
   bio_content: string;
   social_link: SocialLinks;
   buttons: Buttons;
+}
+
+export interface IUser {
+  name: string;
+  picture?: File | null; // optional, can be a File object or null
+  email: string;
+  password: string;
+  role: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface IProfile {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  role: "ADMIN" | "USER" | "SUPER_ADMIN"; // add other roles if needed
+  createdAt: string; // or Date if you convert it
+  updatedAt: string; // or Date if you convert it
+  picture: string[]; // array of image URLs or filenames
 }

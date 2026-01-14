@@ -17,7 +17,7 @@ export function ProjectDetailsButton({
     <>
       <Button
         onClick={() => router.push(`/projects/${projectId}`)}
-        className="px-6 py-2 flex justify-center items-center gap-2 capitalize  text-sm font-medium text-white bg-primary rounded-md hover:bg-primary/90 transition cursor-pointer"
+        className="px-6 py-2 flex justify-center items-center gap-2 capitalize  text-sm font-medium text-white bg-[#19687c] rounded-md hover:bg-[#19687c] transition cursor-pointer"
       >
         {name}
         <MoveRight />

@@ -8,7 +8,7 @@ import { BlogButton } from "./blogButton";
 
 export function BlogCard({ blog }: { blog: IBlog }) {
   return (
-    <Card className="w-full max-w-sm h-[auto] border border-gray-300 rounded-lg shadow-md  transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-2 ">
+    <Card className="w-full max-w-sm h-[auto]  rounded-lg shadow-md  transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-2 ">
       <CardContent className="flex flex-col h-full">
         {/* Image Section */}
         <div className="relative w-full aspect-[16/9]">
@@ -21,7 +21,7 @@ export function BlogCard({ blog }: { blog: IBlog }) {
             }
             alt="Blog img"
             fill
-            className="object-contain rounded-t-lg"
+            className="object-cover rounded-t-md rounded-b-md"
           />
         </div>
 

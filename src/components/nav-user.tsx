@@ -38,6 +38,26 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+const handleLogout = async () => {
+  try {
+    // 🔐 Clear backend session / cookies
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BaseURL}/auth/logout`,
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    );
+  } catch (e) {
+    console.error("Backend logout failed", e);
+  } finally {
+    // 🔓 Clear NextAuth session
+    await signOut({
+      redirect: true,
+      callbackUrl: "/login",
+    });
+  }
+};
 
   return (
     <SidebarMenu>
@@ -50,7 +70,9 @@ export function NavUser({
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.image} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg">
+                  {user.name}
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
@@ -69,7 +91,9 @@ export function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.image} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">
+                    {user.name}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
@@ -78,9 +102,7 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
 
-            <DropdownMenuItem
-              onClick={() => signOut({ callbackUrl: "/login" })}
-            >
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut />
               <span>Log out</span>
             </DropdownMenuItem>

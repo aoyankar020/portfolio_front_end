@@ -1,8 +1,12 @@
+"use client"
 import { IBlog } from "@/type";
+import { ArrowBigLeft } from "lucide-react";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 function BlogDetails({ blog }: { blog: IBlog | null }) {
+  const router=useRouter();
   if (!blog) {
     return (
       <div className="py-20 text-center text-gray-500">Blog not found.</div>
@@ -11,7 +15,7 @@ function BlogDetails({ blog }: { blog: IBlog | null }) {
 
   return (
     <main className="mx-auto max-w-screen-xl px-4 pt-16 pb-6 sm:px-6 lg:px-8 ">
-      <div className="max-h-screen p-20 rounded-3xl shadow-lg bg-white">
+      <div className="min-h-screen p-20 rounded-3xl shadow-lg bg-white">
         <h1 className="text-4xl font-semibold mb-6 capitalize text-gray-700 text-center ">
           {blog?.title}
         </h1>
@@ -51,18 +55,19 @@ function BlogDetails({ blog }: { blog: IBlog | null }) {
         <article className="prose prose-lg max-w-none">
           <p>{blog.content}</p>
         </article>
+
+        <div className="text-center mt-10">
+        
+          <button
+      onClick={() => router.back()}
+      className=" cursor-pointer p-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition"
+    >
+      <ArrowBigLeft />
+    </button>
+        </div>
       </div>
 
-      {/* {blog.thumbnail && (
-        <div className="relative h-80 w-full overflow-hidden">
-          <Image
-            src={blog.thumbnail}
-            alt={blog.title}
-            fill
-            className="rounded-lg object-cover shadow-md"
-          />
-        </div>
-      )} */}
+    
     </main>
   );
 }

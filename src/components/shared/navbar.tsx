@@ -12,6 +12,7 @@ import {
 import { Button } from "../ui/button";
 import Logo from "../logo";
 import Link from "next/link";
+import Image from "next/image";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -19,8 +20,6 @@ const navigationLinks = [
   { href: "/blogs", label: "Blog" },
   { href: "/projects", label: "Project" },
   { href: "/about", label: "About" },
-  { href: "/about", label: "Services" },
-  { href: "/about", label: "Process" },
 ];
 
 export default function Navbar() {
@@ -80,9 +79,9 @@ export default function Navbar() {
           </Popover>
           {/* Main nav */}
           <div className="flex items-center gap-6">
-            <a href="#" className="text-primary hover:text-primary/90">
+            <Link href="/" className="text-primary hover:text-primary/90">
               <Logo />
-            </a>
+            </Link>
 
             {/* <NavigationMenu className="max-md:hidden">
               <NavigationMenuList className="gap-2">
